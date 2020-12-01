@@ -37,7 +37,7 @@
           <section class="login_content">
             
 
-              <h1>Login Form</h1>
+              <h1>We will send you a link</h1>
               <p style="color: red;" v-if="errors.length">
               <b >Please correct the following error(s):</b>
               <br>
@@ -48,10 +48,10 @@
                 <input type="text" class="form-control" placeholder="Email" name="email" v-model="email" required />
               </div>
               <br>
-              <div>
+              <!-- <div>
                 <input type="password" class="form-control" placeholder="Password" name="password" v-model="password" required />
               </div>
-              <br>
+ -->              <br>
 
                 <!-- <select name="role" class="form-control" required>
                   <option>Select Role</option>
@@ -59,8 +59,8 @@
                 </select>  -->
 
               <div>
-                <button class="btn btn-default submit" @click='checkForm();'>Log in</button>
-                <a class="reset_pass" href="forgot.php">Lost your password?</a>
+                <button class="btn btn-default submit" @click='checkForm();'>Send Email</button>
+                <!-- <a class="reset_pass" href="#">Lost your password?</a> -->
               </div>
 
               <div class="clearfix"></div>
@@ -147,9 +147,10 @@
       if (!this.email) {
         this.errors.push("Email required.");
       }
-      if (!this.password) {
-        this.errors.push('Password required.');
-      } else if (!this.validEmail(this.email)) {
+      // if (!this.password) {
+      //   this.errors.push('Password required.');
+      // }
+      else if (!this.validEmail(this.email)) {
         this.errors.push('Valid email required.');
       }
 
@@ -158,17 +159,17 @@
       console.log(this.password);
       this.errors = [];
       axios.post('data.php', {
-        request: 1,
-        email: this.email,
-        password: this.password
+        request: 2,
+        email: this.email
+        //password: this.password
        })
        .then(function(response) {
-        console.log(response);
-        if (response.data[0].status == 1) {
-          window.location.href = 'index.html';
-         alert('Login Successfull');
+        console.log(response.status);
+        if (response.status == 200) {
+          //window.location.href = 'index.html';
+         alert('Mail sent successfully');
         } else {
-         alert("Failed to login, email and password mismatched.");
+         alert("Mail not sent");
         }
        })
        .catch(function(error) {

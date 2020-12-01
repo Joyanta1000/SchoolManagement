@@ -1,3 +1,21 @@
+<?php
+
+$connect = new mysqli('localhost', 'root', '', 'evergreenschool');
+
+if ($connect->connect_error) {
+    die("DataBase Connection failed: " . $connect->connect_error);
+}
+else if($_GET['email']&&$_GET['token'])
+{
+  $email = $_GET['email'];
+  $token = $_GET['token'];
+
+  $sql = "SELECT * FROM `user` WHERE `email` LIKE '$email' AND `token` LIKE '$token'";
+ $query = $connect->query($sql);
+ if($query->num_rows>0)
+ {
+  ?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -37,7 +55,7 @@
           <section class="login_content">
             
 
-              <h1>Login Form</h1>
+              <h1>Set New Password</h1>
               <p style="color: red;" v-if="errors.length">
               <b >Please correct the following error(s):</b>
               <br>
@@ -45,11 +63,11 @@
               <br>
               </p>
               <div>
-                <input type="text" class="form-control" placeholder="Email" name="email" v-model="email" required />
+                <input type="password" class="form-control" placeholder="New Password" name="password" v-model="password" required />
               </div>
               <br>
               <div>
-                <input type="password" class="form-control" placeholder="Password" name="password" v-model="password" required />
+                <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password" v-model="confirm_password" required />
               </div>
               <br>
 
@@ -59,8 +77,8 @@
                 </select>  -->
 
               <div>
-                <button class="btn btn-default submit" @click='checkForm();'>Log in</button>
-                <a class="reset_pass" href="forgot.php">Lost your password?</a>
+                <button class="btn btn-default submit" @click='checkForm();'>Update</button>
+                <!-- <a class="reset_pass" href="#">Lost your password?</a> -->
               </div>
 
               <div class="clearfix"></div>
@@ -130,6 +148,15 @@
 
 </html>
 
+<?php
+ }
+ else
+ {
+  echo "You are not registered yet";
+ }
+}
+
+?>
 
 <script type="text/javascript">
 
@@ -144,31 +171,39 @@
     checkForm: function (e) {
       this.errors = [];
 
-      if (!this.email) {
-        this.errors.push("Email required.");
-      }
       if (!this.password) {
-        this.errors.push('Password required.');
-      } else if (!this.validEmail(this.email)) {
-        this.errors.push('Valid email required.');
+        this.errors.push("New Password is required.");
       }
+       if (!this.confirm_password) {
+         this.errors.push('Confirm Password is required.');
+       }
+       if (this.password!=this.confirm_password) {
+         this.errors.push('Password and Confirm Password are not same.');
+       }
+      // else if (!this.validEmail(this.email)) {
+      //   this.errors.push('Valid email required.');
+      // }
 
       if (!this.errors.length) {
-        console.log(this.email);
-      console.log(this.password);
+        var email = "<?php echo $email;?>";
+        console.log(email);
+        console.log(this.password);
+      console.log(this.confirm_password);
       this.errors = [];
       axios.post('data.php', {
-        request: 1,
-        email: this.email,
-        password: this.password
+        request: 3,
+        email: email,
+        password: this.password,
+        //confirm_password: this.password
+        //password: this.password
        })
        .then(function(response) {
-        console.log(response);
+        console.log(response.data[0].status);
         if (response.data[0].status == 1) {
-          window.location.href = 'index.html';
-         alert('Login Successfull');
+          //window.location.href = 'index.html';
+         alert('Password updated successfully');
         } else {
-         alert("Failed to login, email and password mismatched.");
+         alert("Password not updated");
         }
        })
        .catch(function(error) {
@@ -178,10 +213,10 @@
 
       e.preventDefault();
     },
-    validEmail: function (email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
+    // validEmail: function (email) {
+    //   var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //   return re.test(email);
+    // },
     login: function() {
       
     }
