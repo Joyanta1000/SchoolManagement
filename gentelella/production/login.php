@@ -165,7 +165,7 @@
        .then(function(response) {
         console.log(response);
         if (response.data[0].status == 1) {
-          window.location.href = 'index.html';
+          window.location.href = 'admin/index.php';
          alert('Login Successfull');
         } else {
          alert("Failed to login, email and password mismatched.");

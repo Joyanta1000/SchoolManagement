@@ -142,6 +142,53 @@ $password = md5($data->password);
 // exit();
 }
 }
+
+if($request == 4){
+if ($connect->connect_error) {
+    die("DataBase Connection failed: " . $connect->connect_error);
+}
+else{
+$response = array('error' => false);
+ 
+$id = $data->id;
+$role = $data->role;
+ 
+// if($email==''){
+//  $response['error'] = true;
+//  $response['message'] = "Email is required";
+// }
+// else if($password==''){
+//  $response['error'] = true;
+//  $response['message'] = "Your Password is required";
+// }
+// else{
+ $sql = "INSERT INTO `role` (`id`, `role`) VALUES ($id, '$role')";
+ $query = $connect->query($sql);
+ 
+ if($query){
+  // $row=$query->fetch_array();
+  // //echo $row['role'];
+  // $_SESSION['id']=$row['id'];
+  //$response['message'] = "Login Successful";
+  $response[] = array('status'=>1);
+  //header('Location: index.html');
+ }
+ else{
+  $response[] = array('status'=>0);
+  $response['error'] = true;
+  //$response['message'] = "User Login Failed. User not Found";
+ }
+//}
+ 
+ 
+ 
+//$connect->close();
+ 
+//header("Content-type: application/json");
+// echo json_encode($response);
+// exit();
+}
+}
 header("Content-type: application/json");
 echo json_encode($response);
 exit();
