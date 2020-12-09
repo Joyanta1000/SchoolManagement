@@ -64,14 +64,41 @@
                 <br>
                 </p>
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">ID <span class="required">*</span></label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Email <span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input v-model="id" class="form-control" type="number"  name="id" ></div>
+                                                <input v-model="email" class="form-control" type="email"  name="email" ></div>
                                         </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Password <span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input v-model="password" class="form-control" type="password"  name="password" >
+                                            </div>
+                                        </div>
+                                       
                                         <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Role<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input class="form-control"  v-model="role" name="role" data-validate-length-range="5,15" type="text" /></div>
+                                                <select class="form-control"  v-model="role" name="role"  type="text" >Select
+                                                    
+<?php
+session_start();
+$connect = new mysqli('localhost', 'root', '', 'evergreenschool');
+
+$roles = mysqli_query($connect,"select * from role");
+
+$response = array();
+
+while($row = mysqli_fetch_assoc($roles)){
+?>
+
+<option value="<?php echo $row['id']; ?>"><?php echo $row['role']; ?></option>
+<?php
+}
+
+?>
+                                                    
+                                                </select>
+                                            </div>
                                         </div>
                                         <!-- <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">email<span class="required">*</span></label>
@@ -166,16 +193,20 @@
    el: '#app',
    data: {
     errors: [],
-    id: "",
+    email: "",
+    password: "",
     role: ""
    },
    methods: {
     checkForm: function (e) {
       this.errors = [];
-if (!this.id) {
-        this.errors.push("ID required.");
+if (!this.email) {
+        this.errors.push("Email required.");
       }
-      if (!this.role) {
+      if (!this.password) {
+        this.errors.push('Password required.');
+       }
+       if (!this.role) {
         this.errors.push('Role required.');
        }
         //else if (!this.validEmail(this.email)) {
@@ -183,18 +214,20 @@ if (!this.id) {
       // }
 
       if (!this.errors.length) {
-        console.log(this.id);
+        console.log(this.email);
+        console.log(this.password);
       console.log(this.role);
       this.errors = [];
       axios.post('../data.php', {
-        request: 4,
-        id: this.id,
+        request: 5,
+        email: this.email,
+        password: this.password,
         role: this.role
        })
        .then(function(response) {
         console.log(response);
         if (response.status == 200) {
-          window.location.href = 'add_role.php';
+          window.location.href = 'add_user.php';
          alert('Role Added');
         } else {
          alert("Failed to add.");

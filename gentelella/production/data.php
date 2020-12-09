@@ -189,6 +189,74 @@ $role = $data->role;
 // exit();
 }
 }
+
+
+
+if($request == 5){
+if ($connect->connect_error) {
+    die("DataBase Connection failed: " . $connect->connect_error);
+}
+else{
+$response = array('error' => false);
+ 
+$email = $data->email;
+$password = md5($data->password);
+$role = $data->role;
+ 
+// if($email==''){
+//  $response['error'] = true;
+//  $response['message'] = "Email is required";
+// }
+// else if($password==''){
+//  $response['error'] = true;
+//  $response['message'] = "Your Password is required";
+// }
+// else{
+ $sql = "INSERT INTO `user` (`email`, `password`, `role`) VALUES ('$email', '$password','$role')";
+ $query = $connect->query($sql);
+ 
+ if($query){
+  // $row=$query->fetch_array();
+  // //echo $row['role'];
+  // $_SESSION['id']=$row['id'];
+  //$response['message'] = "Login Successful";
+  $response[] = array('status'=>1);
+  //header('Location: index.html');
+ }
+ else{
+  $response[] = array('status'=>0);
+  $response['error'] = true;
+  //$response['message'] = "User Login Failed. User not Found";
+ }
+//}
+ 
+ 
+ 
+//$connect->close();
+ 
+//header("Content-type: application/json");
+// echo json_encode($response);
+// exit();
+}
+}
+
+
+
+
+
+
+// For fetching roles 
+//if($data->action=='fetchall'){
+// $roles = mysqli_query($connect,"select * from role");
+
+// $response = array();
+
+// while($row = mysqli_fetch_assoc($roles)){
+
+//    $response[] = $row;
+// }
+//}
+// For fetching roles
 header("Content-type: application/json");
 echo json_encode($response);
 exit();
