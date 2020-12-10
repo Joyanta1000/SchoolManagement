@@ -52,85 +52,121 @@
                                     </ul>
                                     <div class="clearfix"></div>
                                 </div>
+                                <div id="app">
                                 <div class="x_content">
-                                    <form class="" action="" method="post" novalidate>
+                                    <!-- <form class="" action="" method="post" novalidate> -->
                                         <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
                                         </p>
                                         <span class="section">User Details</span>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Name<span class="required">*</span></label>
+                                        <p style="color: red;" v-if="errors.length">
+                <b>Please correct the following error(s):</b>
+                <br>
+                <li style="color: red;" v-for="error in errors">{{ error }}</li>
+                <br>
+                </p>
+
+                 <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">User Email<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="ex. John f. Kennedy" required="required" />
+                                                <select class="form-control" name="user_id" required="required" type="text" v-model="user_id" >
+                                                    <option></option>
+                                                    <?php
+session_start();
+$connect = new mysqli('localhost', 'root', '', 'evergreenschool');
+
+$roles = mysqli_query($connect,"select * from user");
+
+$response = array();
+
+while($row = mysqli_fetch_assoc($roles)){
+?>
+
+<option value="<?php echo $row['id']; ?>"><?php echo $row['email']; ?></option>
+<?php
+}
+
+?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Occupation<span class="required">*</span></label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">First Name<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" class='optional' name="occupation" data-validate-length-range="5,15" type="text" /></div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">email<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" name="email" class='email' required="required" type="email" /></div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Confirm email address<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" type="email" class='email' name="confirm_email" data-validate-linked='email' required='required' /></div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Number <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" type="number" class='number' name="number" data-validate-minmax="10,100" required='required'></div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Date<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" class='date' type="date" name="date" required='required'></div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Time<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" class='time' type="time" name="time" required='required'></div>
-                                        </div>
-                                        
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Password<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" type="password" id="password1" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}" title="Minimum 8 Characters Including An Upper And Lower Case Letter, A Number And A Unique Character" required />
-                                                
-                                                <span style="position: absolute;right:15px;top:7px;" onclick="hideshow()" >
-                                                    <i id="slash" class="fa fa-eye-slash"></i>
-                                                    <i id="eye" class="fa fa-eye"></i>
-                                                </span>
+                                                <input class="form-control" data-validate-length-range="100" data-validate-words="2" v-model="first_name" name="first_name" placeholder="ex. John f. Kennedy" required="required" />
                                             </div>
                                         </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Last Name<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="100" v-model="last_name" data-validate-words="2" name="last_name" placeholder="ex. John f. Kennedy" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Fathers Name<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="6" data-validate-words="2" 
+                                                v-model="fathers_name"
+                                                name="fathers_name" placeholder="ex. John f. Kennedy" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Mothers Name<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" class='optional' v-model="mothers_name" name="mothers_name" data-validate-length-range="5,15" type="text" /></div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Gender<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <select class="form-control" name="gender" required="required" type="text" v-model="gender" >
+                                                    <option></option>
+                                                    <?php
+session_start();
+$connect = new mysqli('localhost', 'root', '', 'evergreenschool');
+
+$roles = mysqli_query($connect,"select * from gender");
+
+$response = array();
+
+while($row = mysqli_fetch_assoc($roles)){
+?>
+
+<option value="<?php echo $row['gender']; ?>"><?php echo $row['gender']; ?></option>
+<?php
+}
+
+?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Adderss<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" name="address" v-model="address" required="required" type="text" /></div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Permanent address<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" type="text" v-model="permanent_address" name="permanent_address" required='required' /></div>
+                                        </div>
                                         
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Repeat password<span class="required">*</span></label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Date of Birth<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" type="password" name="password2" data-validate-linked='password' required='required' /></div>
+                                                <input class="form-control" type="date" v-model="date_of_birth" name="date_of_birth" required='required'></div>
                                         </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Telephone<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" type="tel" class='tel' name="phone" required='required' data-validate-length-range="8,20" /></div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">message<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <textarea required="required" name='message'></textarea></div>
-                                        </div>
+                                        
                                         <div class="ln_solid">
                                             <div class="form-group">
                                                 <div class="col-md-6 offset-md-3">
-                                                    <button type='submit' class="btn btn-primary">Submit</button>
+                                                    <br>
+                                                    <button type='submit' class="btn btn-primary" @click='checkForm();' >Submit</button>
                                                     <button type='reset' class="btn btn-success">Reset</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -151,3 +187,100 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+
+  var app = new Vue({
+   el: '#app',
+   data: {
+    errors: [],
+    user_id: "",
+    first_name: "",
+    last_name: "",
+    fathers_name: "",
+    mothers_name: "",
+    gender: "",
+    address: "",
+    permanent_address: "",
+    date_of_birth: ""
+   },
+   methods: {
+    checkForm: function (e) {
+      this.errors = [];
+      if (!this.user_id) {
+        this.errors.push("Users email required.");
+      }
+if (!this.first_name) {
+        this.errors.push("First name required.");
+      }
+      if (!this.last_name) {
+        this.errors.push('Last name required.');
+       }
+       if (!this.fathers_name) {
+        this.errors.push('Fathers name required.');
+       }
+       if (!this.mothers_name) {
+        this.errors.push('Mothers name required.');
+       }
+      if (!this.gender) {
+        this.errors.push('Gender required.');
+       }
+       if (!this.address) {
+        this.errors.push('Adderess required.');
+       }
+       if (!this.permanent_address) {
+        this.errors.push('Parmanent address required.');
+       }
+       if (!this.date_of_birth) {
+        this.errors.push('Date of birth required.');
+       }
+        //else if (!this.validEmail(this.email)) {
+      //   this.errors.push('Valid email required.');
+      // }
+
+      if (!this.errors.length) {
+      //   console.log(this.email);
+      //   console.log(this.password);
+      // console.log(this.role);
+      console.log(this.first_name);
+        console.log(this.last_name);
+      console.log(this.fathers_name);
+      this.errors = [];
+      axios.post('../data.php', {
+        request: 6,
+        user_id: this.user_id,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        fathers_name: this.fathers_name,
+        mothers_name: this.mothers_name,
+        gender: this.gender,
+        address: this.address,
+        permanent_address: this.permanent_address,
+        date_of_birth: this.date_of_birth,
+       })
+       .then(function(response) {
+        console.log(response);
+        if (response.status == 200) {
+          window.location.href = 'add_user_details.php';
+         alert('User details Added');
+        } else {
+         alert("Failed to add.");
+        }
+       })
+       .catch(function(error) {
+        console.log(error);
+       });
+      }
+
+      e.preventDefault();
+    },
+    // validEmail: function (email) {
+    //   var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //   return re.test(email);
+    // },
+    login: function() {
+      
+    }
+   }
+  })
+              </script>

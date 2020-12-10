@@ -240,6 +240,60 @@ $role = $data->role;
 }
 }
 
+if($request == 6){
+if ($connect->connect_error) {
+    die("DataBase Connection failed: " . $connect->connect_error);
+}
+else{
+$response = array('error' => false);
+
+$user_id = $data->user_id;
+$first_name = $data->first_name;
+$last_name = $data->last_name;
+$fathers_name = $data->fathers_name;
+$mothers_name = $data->mothers_name;
+$gender = $data->gender;
+$address = $data->address;
+$permanent_address = $data->permanent_address;
+$date_of_birth = $data->date_of_birth;
+
+ 
+// if($email==''){
+//  $response['error'] = true;
+//  $response['message'] = "Email is required";
+// }
+// else if($password==''){
+//  $response['error'] = true;
+//  $response['message'] = "Your Password is required";
+// }
+// else{
+ $sql = "INSERT INTO `user_details` (`user_id`, `first_name`, `last_name`, `fathers_name`,`mothers_name`, `gender`, `address`, `permanent_address`, `date_of_birth`) VALUES ('$user_id', '$first_name', '$last_name','$fathers_name','$mothers_name', '$gender', '$address', '$permanent_address', '$date_of_birth')";
+ $query = $connect->query($sql);
+ 
+ if($query){
+  // $row=$query->fetch_array();
+  // //echo $row['role'];
+  // $_SESSION['id']=$row['id'];
+  //$response['message'] = "Login Successful";
+  $response[] = array('status'=>1);
+  //header('Location: index.html');
+ }
+ else{
+  $response[] = array('status'=>0);
+  $response['error'] = true;
+  //$response['message'] = "User Login Failed. User not Found";
+ }
+//}
+ 
+ 
+ 
+//$connect->close();
+ 
+//header("Content-type: application/json");
+// echo json_encode($response);
+// exit();
+}
+}
 
 
 
