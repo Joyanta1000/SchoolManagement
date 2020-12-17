@@ -55,6 +55,14 @@
                       <li><a href="calendar.html">Calendar</a></li>
                     </ul>
                   </li>
+
+                  <li><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="roles.php">Roles</a></li>
+                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                    </ul>
+                  </li>
+
                   <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="tables.html">Tables</a></li>
