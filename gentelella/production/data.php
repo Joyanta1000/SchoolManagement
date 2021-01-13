@@ -42,6 +42,7 @@ $password = md5($data->password);
   $row=$query->fetch_array();
   //echo $row['role'];
   $_SESSION['id']=$row['id'];
+  $_SESSION['role']=$row['role'];
   //$response['message'] = "Login Successful";
   $response[] = array('status'=>1);
   //header('Location: index.html');

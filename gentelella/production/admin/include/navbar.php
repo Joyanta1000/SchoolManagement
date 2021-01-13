@@ -7,7 +7,27 @@
               <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                   <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <img src="../images/img.jpg" alt="">John Doe
+                    <?php
+
+//include_once("config.php");
+
+$connect = new mysqli('localhost', 'root', '', 'evergreenschool');
+
+$sql = "SELECT * FROM user_details RIGHT OUTER JOIN user_image ON user_details.user_id=user_image.id WHERE user_image.id = '$id'";
+ $query = $connect->query($sql);
+ 
+ if($query->num_rows>0){
+  $row=$query->fetch_array();
+  
+?>
+                    <img src="<?php echo $row['image_url'];?>" alt="">John Doe
+                  <?php    }
+ else{
+  echo "No records";
+ }
+
+
+?>
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item"  href="javascript:;"> Profile</a>

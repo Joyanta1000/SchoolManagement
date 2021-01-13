@@ -9,7 +9,28 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="../images/img.jpg" alt="..." class="img-circle profile_img">
+                <?php
+
+//include_once("config.php");
+
+$connect = new mysqli('localhost', 'root', '', 'evergreenschool');
+
+$sql = "SELECT * FROM user_details RIGHT OUTER JOIN user_image ON user_details.user_id=user_image.id WHERE user_image.id = '$id'";
+ $query = $connect->query($sql);
+ 
+ if($query->num_rows>0){
+  $row=$query->fetch_array();
+  
+?>
+                <img src="<?php echo $row['image_url'];?>" alt="..." class="img-circle profile_img">
+
+                <?php    }
+ else{
+  echo "No records";
+ }
+
+
+?>
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
