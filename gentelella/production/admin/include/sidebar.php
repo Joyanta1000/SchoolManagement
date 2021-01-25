@@ -12,6 +12,7 @@
                 <?php
 
 //include_once("config.php");
+$id = $_SESSION['id'];
 
 $connect = new mysqli('localhost', 'root', '', 'evergreenschool');
 

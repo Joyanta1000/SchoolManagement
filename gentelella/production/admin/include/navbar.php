@@ -10,7 +10,7 @@
                     <?php
 
 //include_once("config.php");
-
+$id = $_SESSION['id'];
 $connect = new mysqli('localhost', 'root', '', 'evergreenschool');
 
 $sql = "SELECT * FROM user_details RIGHT OUTER JOIN user_image ON user_details.user_id=user_image.id WHERE user_image.id = '$id'";

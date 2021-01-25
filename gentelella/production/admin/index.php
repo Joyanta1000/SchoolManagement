@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   
-   <?php include_once('../admin/include/header.php');?>
+   <?php include_once('../admin/include/header.php');
+session_start();
+   ?>
   
 
   <body class="nav-md">
