@@ -57,7 +57,7 @@
                                     <!-- <form class="" action="" method="post" novalidate> -->
                                         <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
                                         </p>
-                                        <span class="section">Add Subject</span>
+                                        <span class="section">Add Result</span>
                 <p style="color: red;" v-if="errors.length">
                 <b>Please correct the following error(s):</b>
                 <br>
@@ -77,22 +77,22 @@
                                         </div> -->
                                        
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Class<span class="required">*</span></label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Email<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <select class="form-control"  v-model="classes" name="classes"  type="text" >
+                                                <select class="form-control"  v-model="email" name="email"  type="text" >
                                                     
 <?php
 session_start();
 $connect = new mysqli('localhost', 'root', '', 'evergreenschool');
 
-$roles = mysqli_query($connect,"select * from class");
+$roles = mysqli_query($connect,"select * from user");
 
 $response = array();
 
 while($row = mysqli_fetch_assoc($roles)){
 ?>
 
-<option value="<?php echo $row['classes']; ?>"><?php echo $row['classes']; ?></option>
+<option value="<?php echo $row['email']; ?>"><?php echo $row['email']; ?></option>
 <?php
 }
 
@@ -101,32 +101,7 @@ while($row = mysqli_fetch_assoc($roles)){
                                                 </select>
                                             </div>
                                         </div>
-<div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Day<span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <select class="form-control"  v-model="days" name="days"  type="text" >
-                                                    
-<?php
-session_start();
-$connect = new mysqli('localhost', 'root', '', 'evergreenschool');
-
-$roles = mysqli_query($connect,"select * from day");
-
-$response = array();
-
-while($row = mysqli_fetch_assoc($roles)){
-?>
-
-<option value="<?php echo $row['days']; ?>"><?php echo $row['days']; ?></option>
-<?php
-}
-
-?>
-                                                    
-                                                </select>
-                                            </div>
-                                        </div>
-
+<!--  -->
 <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Subject<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
@@ -154,18 +129,18 @@ while($row = mysqli_fetch_assoc($roles)){
                                         </div>
 
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Starting Time <span class="required">*</span></label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align"> Result <span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input v-model="starting_time_slot" class="form-control" type="time"  name="starting_time_slot" >
+                                                <input v-model="result" class="form-control" type="text"  name="result" >
                                             </div>
                                         </div>
 
-                                        <div class="field item form-group">
+                                        <!-- <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Ending Time <span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
                                                 <input v-model="ending_time_slot" class="form-control" type="time"  name="ending_time_slot" >
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                         <!-- <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">email<span class="required">*</span></label>
@@ -260,54 +235,48 @@ while($row = mysqli_fetch_assoc($roles)){
    el: '#app',
    data: {
     errors: [],
-    classes: "",
-    days: "",
+    email: "",
     subjects: "",
-    starting_time_slot: "",
-    ending_time_slot: ""
+    results: ""
    },
    methods: {
     checkForm: function (e) {
       this.errors = [];
-if (!this.classes) {
-        this.errors.push("Class required.");
+if (!this.email) {
+        this.errors.push("Email required.");
       }
-      if (!this.days) {
-        this.errors.push('Day required.');
+      if (!this.subjects) {
+        this.errors.push('Subject required.');
        }
-       if (!this.subjects) {
-        this.errors.push("Subject required.");
+       if (!this.result) {
+        this.errors.push("Result required.");
       }
-      if (!this.starting_time_slot) {
-        this.errors.push('Starting time required.');
-       }
-       if (!this.ending_time_slot) {
-        this.errors.push('Endiing time required.');
-       }
+      // if (!this.starting_time_slot) {
+      //   this.errors.push('Starting time required.');
+      //  }
+      //  if (!this.ending_time_slot) {
+      //   this.errors.push('Endiing time required.');
+      //  }
         //else if (!this.validEmail(this.email)) {
       //   this.errors.push('Valid email required.');
       // }
 
       if (!this.errors.length) {
-        console.log(this.classes);
-         console.log(this.days);
+         console.log(this.email);
          console.log(this.subjects);
-         console.log(this.starting_time_slot);
-         console.log(this.ending_time_slot);
+         console.log(this.result);
       this.errors = [];
-      axios.post('routines_data_insert.php', {
-        request: 'routine',
-        classes: this.classes,
-        days: this.days,
+      axios.post('results_data_insert.php', {
+        request: 'result',
+        email: this.email,
         subjects: this.subjects,
-        starting_time_slot: this.starting_time_slot,
-        ending_time_slot: this.ending_time_slot,
+        result: this.result,
        })
        .then(function(response) {
         console.log(response);
         if (response.status == 200) {
-          window.location.href = 'add_routine.php';
-         alert('routine Added');
+          window.location.href = 'add_result.php';
+         alert('Result Added');
         } else {
          alert("Failed to add.");
         }

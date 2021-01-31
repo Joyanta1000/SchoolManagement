@@ -144,18 +144,16 @@ $request = $data->request;
 // }
 // }
 
-if($request == 'routine'){
+if($request == 'result'){
 if ($connect->connect_error) {
     die("DataBase Connection failed: " . $connect->connect_error);
 }
 else{
 $response = array('error' => false);
  
-$classes = $data->classes;
-$days = $data->days;
+$email = $data->email;
 $subjects = $data->subjects;
-$starting_time_slot = $data->starting_time_slot;
-$ending_time_slot = $data->ending_time_slot;
+$result = $data->result;
 // if($email==''){
 //  $response['error'] = true;
 //  $response['message'] = "Email is required";
@@ -165,7 +163,7 @@ $ending_time_slot = $data->ending_time_slot;
 //  $response['message'] = "Your Password is required";
 // }
 // else{
- $sql = "INSERT INTO `routine` (`id`, `classes`, `days`, `subjects`, `starting_time_slot`, `ending_time_slot`) VALUES (' ', '$classes', '$days', '$subjects', '$starting_time_slot', '$ending_time_slot');";
+ $sql = "INSERT INTO `result` (`id`, `email`, `subjects`, `result`) VALUES (' ', '$email', '$subjects', '$result');";
  $query = $connect->query($sql);
  
  if($query){
